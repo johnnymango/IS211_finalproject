@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>Books Catalogue Dashboard</title>
+
+  </head>
+
+  <body>
+
+	<h1>Books Catalogue Dashboard</h1>
+    <h2>Books in the Catalogue</h2>
+    <ul class="books">
+
+        <table cellpadding="10" border="1">
+
+          <tr>
+            <th> Title </th>
+            <th> Author </th>
+            <th> Page Count </th>
+              <th> Avg Rating </th>
+          </tr>
+        {% for book in books %}
+            <tr>
+
+                <td > {{ book.book_title }} </td>
+                <td> {{ book.book_author }} </td>
+                <td style="text-align: center"> {{ book.book_pagecount }} </td>
+                <td style="text-align: center"> {{ book.book_rating }} </td>
+                <td style="text-align: center">
+                <form action="/delete/{{ book.id }}" method="POST">
+                <input type="submit" value="Delete">
+                </form>
+                </td>
+
+            </tr>
+        {% endfor %}
+        </table>
+
+    </ul><br>
+
+	<a href='/isbn_search'>Add Book to Catalogue</a>
+
+
+
+  </body>
+</html>
