@@ -56,7 +56,7 @@ def login():
         return render_template('login.html', error=error)
 
 
-#Function to create dashboard route and select students and quizzes.
+#Function to create dashboard route and select books from catalogue.
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
     if session['logged_in'] is not True:
