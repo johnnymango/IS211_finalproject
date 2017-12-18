@@ -79,23 +79,29 @@ def isbn_search():
         return render_template("searchbook.html")
 
     elif request.method == 'POST':
-        if request.form['btn'] == 'lookup':
+        error = None
+        if request.form['btn'] == 'search':
             books_url = "https://www.googleapis.com/books/v1/volumes?q=isbn:"
             final_url = books_url + str(request.form['isbn'])
             json_obj = urllib2.urlopen(final_url)
             data = json.load(json_obj)
 
-            for item in data['items']:
-                title = str(item['volumeInfo']['title'])
-                author = str(item['volumeInfo']['authors'][0])
-                pagecount = int(item['volumeInfo']['pageCount'])
-                rating = int(item['volumeInfo']['averageRating'])
+            if data['totalItems'] == 0:
+                error = 'No Results Found with ISBN!  Try Again.'
+                return render_template('searchbook.html', error=error)
 
-            g.db.execute('INSERT INTO books (book_isbn, book_title, book_author, book_pagecount, book_rating) '
-                         'values (?, ?, ?, ?, ?)',
-                         [request.form['isbn'], title, author, pagecount,
-                          rating])
-            g.db.commit()
+            else:
+                for item in data['items']:
+                    title = str(item['volumeInfo']['title'])
+                    author = str(item['volumeInfo']['authors'][0])
+                    pagecount = int(item['volumeInfo']['pageCount'])
+                    rating = int(item['volumeInfo']['averageRating'])
+
+                g.db.execute('INSERT INTO books (book_isbn, book_title, book_author, book_pagecount, book_rating) '
+                             'values (?, ?, ?, ?, ?)',
+                             [request.form['isbn'], title, author, pagecount,
+                              rating])
+                g.db.commit()
     return redirect(url_for('dashboard'))
 
 #Function deletes the book from the catalogue

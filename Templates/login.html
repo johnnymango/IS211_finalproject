@@ -17,5 +17,9 @@
         <button type="submit">Login</button>
 	</form>
 
+{% if error %}
+<p class = "error"><strong>ERROR:</strong> {{ error }}</p>
+{% endif %}
+
   </body>
 </html>
