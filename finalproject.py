@@ -4,7 +4,7 @@
 import urllib2
 import json
 import sqlite3
-from flask import Flask, request, session, g, redirect, url_for, render_template, flash
+from flask import Flask, request, session, g, redirect, url_for, render_template
 
 #App configuration items
 DATABASE = "books.db"
